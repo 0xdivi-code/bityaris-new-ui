@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Bitlance design tokens
+ * Runtime-swappable CSS variables consumed through Tailwind's
+ * `@theme inline` so utilities (bg-page, text-ink, border-line…)
+ * follow the active theme without rebuilding the stylesheet.
+ * ------------------------------------------------------------------ */
+
+@theme inline {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --font-display: "Space Grotesk", "Manrope", ui-sans-serif, system-ui,
+    sans-serif;
+
+  --color-page: var(--bl-page);
+  --color-panel: var(--bl-panel);
+  --color-card: var(--bl-card);
+  --color-card-2: var(--bl-card-2);
+  --color-ink: var(--bl-ink);
+  --color-ink-soft: var(--bl-ink-soft);
+  --color-muted: var(--bl-muted);
+  --color-faint: var(--bl-faint);
+  --color-line: var(--bl-line);
+  --color-line-strong: var(--bl-line-strong);
+
+  --color-brand: #00d9e8;
+  --color-brand-deep: #00bfcf;
+  --color-up: #00c087;
+  --color-down: #f0445a;
+
+  --shadow-card: var(--bl-shadow-card);
+  --shadow-float: var(--bl-shadow-float);
+}
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bl-page: #050809;
+  --bl-panel: #090f12;
+  --bl-card: #101719;
+  --bl-card-2: #0b1114;
+  --bl-ink: #ffffff;
+  --bl-ink-soft: #d3dce0;
+  --bl-muted: #8b98a0;
+  --bl-faint: #616e76;
+  --bl-line: rgba(255, 255, 255, 0.07);
+  --bl-line-strong: rgba(255, 255, 255, 0.13);
+  --bl-glass: rgba(6, 10, 12, 0.78);
+  --bl-glass-strong: rgba(5, 8, 9, 0.92);
+  --bl-btn-ghost: rgba(255, 255, 255, 0.06);
+  --bl-illu: rgba(0, 217, 232, 0.5);
+  --bl-shadow-card: 0 24px 60px -28px rgba(0, 0, 0, 0.75);
+  --bl-shadow-float: 0 30px 80px -30px rgba(0, 0, 0, 0.85);
+  --bl-hero-veil: rgba(5, 8, 9, 0.55);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bl-page: #f7f9fb;
+  --bl-panel: #ffffff;
+  --bl-card: #ffffff;
+  --bl-card-2: #f1f5f7;
+  --bl-ink: #101820;
+  --bl-ink-soft: #2c3740;
+  --bl-muted: #68747d;
+  --bl-faint: #8a97a0;
+  --bl-line: rgba(16, 24, 32, 0.09);
+  --bl-line-strong: rgba(16, 24, 32, 0.16);
+  --bl-glass: rgba(255, 255, 255, 0.82);
+  --bl-glass-strong: rgba(255, 255, 255, 0.94);
+  --bl-btn-ghost: rgba(16, 24, 32, 0.05);
+  --bl-illu: rgba(0, 156, 173, 0.55);
+  --bl-shadow-card: 0 22px 48px -26px rgba(16, 24, 32, 0.22);
+  --bl-shadow-float: 0 28px 64px -28px rgba(16, 24, 32, 0.28);
+  --bl-hero-veil: rgba(5, 8, 9, 0.55);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bl-page);
+    color: var(--bl-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "tnum" 0;
+  }
+
+  ::selection {
+    background: rgba(0, 217, 232, 0.28);
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid #00d9e8;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  /* Cross-fade every surface when the theme flips */
+  html.theme-anim,
+  html.theme-anim *,
+  html.theme-anim *::before,
+  html.theme-anim *::after {
+    transition-property: background-color, border-color, color, fill, stroke,
+      box-shadow, outline-color !important;
+    transition-duration: 320ms !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  section[id] {
+    scroll-margin-top: 84px;
+  }
+}
+
+/* ------------------------------------------------------------ utilities */
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+@utility bl-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-inline: 1rem;
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility bl-glow-ring {
+  box-shadow:
+    0 0 0 1px rgba(0, 217, 232, 0.28),
+    0 18px 50px -18px rgba(0, 217, 232, 0.45);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bl-line-strong) transparent;
+  &::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--bl-line-strong);
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ----------------------------------------------------------- animations */
+
+@keyframes bl-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.bl-marquee-track {
+  animation: bl-marquee 46s linear infinite;
+  will-change: transform;
+}
+
+.bl-marquee:hover .bl-marquee-track,
+.bl-marquee:focus-within .bl-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes bl-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+.bl-live-dot {
+  animation: bl-pulse-dot 2.2s ease-in-out infinite;
+}
+
+@keyframes bl-float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bl-float-slow {
+  animation: bl-float-slow 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .bl-marquee-track,
+  .bl-live-dot,
+  .bl-float-slow {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
